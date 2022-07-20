@@ -11,6 +11,6 @@ namespace NewApiService.Data
         IEnumerable<Account> GetAllUser();
         Account GetUserById(string Id);
         void AddUser(Account user);
-        void DeleteUser(Account user);
+        void DeleteAccount(string Id);
     }
 }

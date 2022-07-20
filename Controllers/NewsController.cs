@@ -30,7 +30,7 @@ namespace NewApiService.Controllers
         public ActionResult<News> GetNewsById(string id)
         {
             var result = repo.GetNewsById(id);
-            if (result != null)
+            if (result.NewsId != null)
                 return result;
             else
                 return NotFound();
@@ -38,7 +38,7 @@ namespace NewApiService.Controllers
 
 
         [HttpPost]
-        public ActionResult<News> CreateCommand([FromBody] News news)
+        public ActionResult<News> AddNews([FromBody] News news)
         {
             repo.AddNews(news);
             //Return the data that is posted
@@ -46,18 +46,20 @@ namespace NewApiService.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<News> DeleteCommand(string id, News news)
+        public ActionResult<News> DeleteCommand(string id)
         {
             var objId = repo.GetNewsById(id);
-            if (objId == null)
+            if (objId.NewsId == null)
                 return NotFound();
             else
             {
-                repo.DeleteNews(objId);
-            }
+                //repo.DeleteNews(objId);
+                repo.DeleteNews(id);
             return NoContent();   // 204 status code
+            }
         }
 
 
     }
 }
+    

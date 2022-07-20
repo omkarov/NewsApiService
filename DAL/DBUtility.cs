@@ -109,7 +109,6 @@ namespace NewApiService.DAL
                         news.NewsTime = Convert.ToDateTime(reader["NewsTime"]);
                     }
                 }
-                return news;
             }
             catch (Exception se)
             {
@@ -120,21 +119,62 @@ namespace NewApiService.DAL
                 con.Close();
             }
             return news;
+
         }
 
-
         //add news
+        public void UtilityAddNews(News news)
+        {
+            string getAllQuery = $"Insert into news VALUES('{news.NewsId}','{news.NewsAuthor}' ,'{news.NewsCategory}' , '{news.ApprovedBy}','{news.NewsLocation}','{news.NewsTitle}','{news.NewsMatter}','{news.NewsTime}' ) ";
+            GetConnection();
+            command = new SqlCommand(getAllQuery, con);
+            
+            try
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    Console.WriteLine(reader);
+                }
 
+            }
+            catch (Exception se)
+            {
+                Console.WriteLine(se.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
 
-
+        }
         //deletenews
         public void UtilityDeleteNews(string newsId)
         {
-            string getAllQuery = $" delete from news where newsId=@ ";
+            string getAllQuery = $" delete from news where newsId=@Id";
+            GetConnection();
+            command = new SqlCommand(getAllQuery, con);
+            SqlParameter idParam = new SqlParameter("@Id", newsId);
+            command.Parameters.Add(idParam);
+            try
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    Console.WriteLine(reader);
+                }
+
+            }
+            catch (Exception se)
+            {
+                Console.WriteLine(se.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
 
         }
-
-
 
 
         //updatenews
@@ -185,8 +225,6 @@ namespace NewApiService.DAL
             }
         }
 
-
-
         //getUserbyid
         public Account UtilityGetUserById(string empId)
         {
@@ -226,7 +264,62 @@ namespace NewApiService.DAL
                 return acc;
         }
 
+        //add user
+        public void UtilityAddAccount(Account acc)
+        {
+            string getAllQuery = $"Insert into account VALUES('{acc.EmpId}','{acc.Name}' ,'{acc.Email}' , '{acc.Password}','{acc.RoleId}','{acc.DateOfBirth}','{acc.Nationality}','{acc.NewsCount}','{acc.UserIsApprovedByAdmin}' ) ";
+            GetConnection();
+            command = new SqlCommand(getAllQuery, con);
 
+            try
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    Console.WriteLine(reader);
+                }
+
+            }
+            catch (Exception se)
+            {
+                Console.WriteLine(se.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+
+        }
+
+        //delete user
+        public void UtilityDeleteAccount(string empId)
+        {
+            string getAllQuery = $" delete from account where EmpId=@Id";
+            GetConnection();
+            command = new SqlCommand(getAllQuery, con);
+            SqlParameter idParam = new SqlParameter("@Id", empId);
+            command.Parameters.Add(idParam);
+            try
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    Console.WriteLine(reader);
+                }
+
+            }
+            catch (Exception se)
+            {
+                Console.WriteLine(se.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+
+        }
+
+        //approve user
 
 
 

@@ -36,18 +36,25 @@ namespace NewApiService.Controllers
 
 
         [HttpPost]
-        public  ActionResult AddUser([FromBody]Account user)
+        public ActionResult AddUser([FromBody] Account user)
         {
             _repo.AddUser(user);
 
             return CreatedAtRoute(nameof(GetUserById), new { id = user.EmpId }, user);
         }
 
+        [HttpDelete("{id}")]
 
-
-
-
-
-
+        public ActionResult deleteUser(string id)
+        {
+            var objId = _repo.GetUserById(id);
+            if (objId.EmpId == null)
+                return NotFound();
+            else
+            {
+                _repo.DeleteAccount(id);
+                return NoContent();   // 204 status code
+            }
+        }
     }
 }

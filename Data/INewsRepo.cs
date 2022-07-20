@@ -13,7 +13,7 @@ namespace NewApiService.Data
         public News GetNewsById(string Id);
 
         public void AddNews(News news);
-        public void DeleteNews(News news);
+        public void DeleteNews(string Id);
 
 
 

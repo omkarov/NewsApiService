@@ -24,29 +24,33 @@ namespace NewApiService.Data
 
         public void AddNews(News news)
         {
-            if (news != null)
-            {
-                newsList.Add(news);
-            }
+            //if (news != null)
+            //{
+            //    newsList.Add(news);
+            //}
+
+            dbutility.UtilityAddNews(news);
         }
 
-        public void DeleteNews(News news)
+        public void DeleteNews(string Id)
         {
-            var tempNews = GetNewsById(news.NewsId);
-            if (tempNews != null)
-            {
-                int pos = newsList.IndexOf(tempNews);
-                newsList.RemoveAt(pos);
-            }
+            //var tempNews = GetNewsById(news.NewsId);
+            //if (tempNews != null)
+            //{
+            //    int pos = newsList.IndexOf(tempNews);
+            //    newsList.RemoveAt(pos);
+
+            //}
+                dbutility.UtilityDeleteNews(Id);
         }
 
 
-        List<News> newsList = new List<News>()
-        {
-            new News { NewsId ="N1" ,NewsAuthor="Omkar",NewsCategory="technical",ApprovedBy="true",NewsLocation="India", NewsTitle="testing1 title",NewsMatter="testing testing testing" ,NewsTime=new DateTime(2022,07,20) },
-            new News { NewsId ="N2" ,NewsAuthor="Omkar",NewsCategory="General",ApprovedBy="true",NewsLocation="India", NewsTitle="testing1 title",NewsMatter="testing testing testing" ,NewsTime=new DateTime(2022,07,19) },
-            new News { NewsId ="N2" ,NewsAuthor="Omkar",NewsCategory="General",ApprovedBy="true",NewsLocation="India", NewsTitle="testing1 title",NewsMatter="testing testing testing" ,NewsTime=new DateTime(2022,07,19) }
-        };
+        //List<News> newsList = new List<News>()
+        //{
+        //    new News { NewsId ="N1" ,NewsAuthor="Omkar",NewsCategory="technical",ApprovedBy="true",NewsLocation="India", NewsTitle="testing1 title",NewsMatter="testing testing testing" ,NewsTime=new DateTime(2022,07,20) },
+        //    new News { NewsId ="N2" ,NewsAuthor="Omkar",NewsCategory="General",ApprovedBy="true",NewsLocation="India", NewsTitle="testing1 title",NewsMatter="testing testing testing" ,NewsTime=new DateTime(2022,07,19) },
+        //    new News { NewsId ="N3" ,NewsAuthor="Omkar",NewsCategory="General",ApprovedBy="true",NewsLocation="India", NewsTitle="testing1 title",NewsMatter="testing testing testing" ,NewsTime=new DateTime(2022,07,19) }
+        //};
 
 
 
