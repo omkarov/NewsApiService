@@ -14,12 +14,13 @@ namespace NewApiService.DAL
         public string conStr = @"Data Source=MUM02L10266\SQLEXPRESS;Initial Catalog=Newsdb;User ID=sa;Password=Password123 ";
         string Qry = string.Empty;
 
-        public void GetConnection()
+        
+        public  void  GetConnection()
         {
             try
             {
                 con = new SqlConnection(conStr);
-                con.Open();
+                 con.OpenAsync();
             }
             catch (SqlException se)
             {
@@ -27,13 +28,13 @@ namespace NewApiService.DAL
             }
         }
 
-        public void CloseConnection()
+        public async Task CloseConnection()
         {
             try
             {
                 if (con != null)
                 {
-                    con.Close();
+                    await con.CloseAsync();
                 }
             }
             catch (SqlException se)
@@ -43,7 +44,7 @@ namespace NewApiService.DAL
         }
 
         //get all news
-        public List<News> UtilityGetAllNews()
+        public async Task<List<News>> UtilityGetAllNewsAsync()
         {
             List<News> newslist = new List<News>();
             string getAllQuery = "select * from news ";
@@ -51,7 +52,7 @@ namespace NewApiService.DAL
             command = new SqlCommand(getAllQuery, con);
             try
             {
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -77,24 +78,24 @@ namespace NewApiService.DAL
             }
             finally
             {
-                con.Close();
+                await con.CloseAsync();
             }
             return newslist;
         }
 
         //getnewsbyid
-        public News UtilityGetNewsById(string newsId)
+        public async Task<News> UtilityGetNewsByIdAsync(string newsId)
         {
-            string getAllQuery = $"select * from news where NewsId= @Id ";  
-            GetConnection();
+            string getAllQuery = $"select * from news where NewsId= @Id ";
+           GetConnection();
             command = new SqlCommand(getAllQuery, con);
 
             SqlParameter idParam = new SqlParameter("@Id", newsId);
-            command.Parameters.Add(idParam);
+             command.Parameters.Add(idParam);
             News news = new News();
             try
             {
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -116,14 +117,14 @@ namespace NewApiService.DAL
             }
             finally
             {
-                con.Close();
+                await con.CloseAsync();
             }
             return news;
 
         }
 
         //add news
-        public void UtilityAddNews(News news)
+        public async Task UtilityAddNewsAsync(News news)
         {
             string getAllQuery = $"Insert into news VALUES('{news.NewsId}','{news.NewsAuthor}' ,'{news.NewsCategory}' , '{news.ApprovedBy}','{news.NewsLocation}','{news.NewsTitle}','{news.NewsMatter}','{news.NewsTime}' ) ";
             GetConnection();
@@ -131,7 +132,7 @@ namespace NewApiService.DAL
             
             try
             {
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
                     Console.WriteLine(reader);
@@ -144,22 +145,22 @@ namespace NewApiService.DAL
             }
             finally
             {
-                con.Close();
+                await con.CloseAsync();
             }
 
         }
         //deletenews
-        public void UtilityDeleteNews(string newsId)
+        public async Task UtilityDeleteNewsAsync(string newsId)
         {
             try
             {
             bool isDeleted  =   false;
             string delQuery = $" delete from news where newsId=@Id";
-            GetConnection();
+             GetConnection();
             command = new SqlCommand(delQuery, con);
             SqlParameter idParam = new SqlParameter("@Id", newsId);
             command.Parameters.Add(idParam);
-            int res  =  command.ExecuteNonQuery();
+            int res  =  await command.ExecuteNonQueryAsync();
                 if (res>0)
                 {
                     Console.WriteLine("RowDeleted");
@@ -174,7 +175,7 @@ namespace NewApiService.DAL
             }
             finally
             {
-                con.Close();
+                await con.CloseAsync();
             }
 
         }
@@ -183,13 +184,13 @@ namespace NewApiService.DAL
         //updatenews
 
         //---------------------------------------------------
-
+        
         //get all users
         public List<Account> UtilitygetAllUsers()
         {
+                List<Account> userList = new List<Account>();
             try
             {
-                List<Account> userList = new List<Account>();
                 Qry = $"select * from account";
                 GetConnection();
                 command = new SqlCommand(Qry, con);
@@ -210,22 +211,19 @@ namespace NewApiService.DAL
                             NewsCount = (int)reader[7],
                             UserIsApprovedByAdmin = Convert.ToBoolean(reader[8])
 
-
                         });
                     }
                 }
-                return userList;
             }
-            catch (Exception)
+            catch (Exception se)
             {
-
-                throw;
+                Console.WriteLine(se.Message);
             }
             finally
             {
                 con.Close();
-
             }
+            return userList;
         }
 
         //getUserbyid
@@ -306,12 +304,13 @@ namespace NewApiService.DAL
             return acc;
         }
 
-
-
+        PasswordManager passwordm = new PasswordManager();
         //add user
         public void UtilityAddAccount(Account acc)
         {
-            string getAllQuery = $"Insert into account VALUES('{acc.EmpId}','{acc.Name}' ,'{acc.Email}' , '{acc.Password}','{acc.RoleId}','{acc.DateOfBirth}','{acc.Nationality}','{acc.NewsCount}','{acc.UserIsApprovedByAdmin}' ) ";
+            string hpwd = passwordm.HashPasswordEncoder(acc.Password);
+
+            string getAllQuery = $"Insert into account VALUES('{acc.EmpId}','{acc.Name}' ,'{acc.Email}' , '{hpwd}','{acc.RoleId}','{acc.DateOfBirth}','{acc.Nationality}','{acc.NewsCount}','{acc.UserIsApprovedByAdmin}' ) ";
             GetConnection();
             command = new SqlCommand(getAllQuery, con);
 
@@ -336,6 +335,8 @@ namespace NewApiService.DAL
             }
 
         }
+
+        
 
         //delete user
         public void UtilityDeleteAccount(string empId)

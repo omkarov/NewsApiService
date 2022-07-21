@@ -20,18 +20,17 @@ namespace NewApiService.Controllers
             repo = repository;
         }
 
-        [Authorize]
         [HttpGet]
-        public IEnumerable<News> GetAllNews()   
+        public async Task<IEnumerable<News>> GetAllNewsAsync()   
         {
-
-            return repo.GetAllNews();
+            var obj= await repo.GetAllNewsAsync();
+            return obj;
         }
 
-        [HttpGet("{id}", Name = "GetNewsById")]
-        public ActionResult<News> GetNewsById(string id)
+        [HttpGet("{id}", Name = "GetNewsByIdAsync")]
+        public async Task<ActionResult<News>> GetNewsByIdAsync(string id)
         {
-            var result = repo.GetNewsById(id);
+            var result = await repo.GetNewsByIdAsync(id);
             if (result.NewsId != null)
                 return result;
             else
@@ -40,23 +39,25 @@ namespace NewApiService.Controllers
 
 
         [HttpPost]
-        public ActionResult<News> AddNews([FromBody] News news)
+        public async Task<ActionResult<News>> AddNewsAsync([FromBody] News news)
         {
-            repo.AddNews(news);
+            await repo.AddNewsAsync(news);
             //Return the data that is posted
-            return CreatedAtRoute(nameof(GetNewsById), new { Id = news.NewsId }, news);
+            var obj =  CreatedAtRoute(nameof(GetNewsByIdAsync), new { Id = news.NewsId }, news);
+            return obj;
+
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<News> DeleteCommand(string id)
+        public async Task<ActionResult<News>> DeleteCommandAsync(string id)
         {
-            var objId = repo.GetNewsById(id);
+            var objId = await repo.GetNewsByIdAsync(id);
             if (objId.NewsId == null)
                 return NotFound();
             else
             {
                 //repo.DeleteNews(objId);
-                repo.DeleteNews(id);
+                await repo.DeleteNewsAsync(id);
             return NoContent();   // 204 status code
             }
         }

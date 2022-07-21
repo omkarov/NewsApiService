@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace NewApiService.Controllers
 {
+
+
     [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
@@ -23,23 +25,23 @@ namespace NewApiService.Controllers
             this.jwtprovider = jwtprovider;
         }
 
+        PasswordManager passwordm = new PasswordManager();
 
         [HttpPost("login")]
 
         public ActionResult AttemptLogin([FromBody] Account acc)
         {
-
-            string pwd = acc.Password ;
+            string pwd = acc.Password;
             string email = acc.Email;
-
+            string hpwd = passwordm.HashPasswordEncoder(acc.Password);
             Account account = accountRepo.GetUserByEmail(email);
 
             if (acc == null)
             {
                 return BadRequest("Invalid user name");
             }
-
-            if (!acc.Password.Equals(pwd))
+            //if (!pwd.Equals(account.Password))
+            if (!hpwd.Equals(account.Password))
             {
                 return BadRequest("Invalid Password");
             }
@@ -50,3 +52,6 @@ namespace NewApiService.Controllers
         }
     }
 }
+
+
+

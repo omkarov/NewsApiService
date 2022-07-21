@@ -10,29 +10,31 @@ namespace NewApiService.Data
     public class NewsRepoImpl:INewsRepo
     {
         DBUtility dbutility = new DBUtility();
-        public IEnumerable<News> GetAllNews()
+        public async Task<IEnumerable<News>> GetAllNewsAsync()
         {
             //return newsList;
-            return dbutility.UtilityGetAllNews();
+            var obj= await dbutility.UtilityGetAllNewsAsync();
+            return obj;
         }
 
-        public News GetNewsById(string Id)
+        public async Task<News> GetNewsByIdAsync(string Id)
         {
             //return newsList.FirstOrDefault(x => x.NewsId.Equals(Id));
-            return dbutility.UtilityGetNewsById(Id);
+            var obj= await dbutility.UtilityGetNewsByIdAsync(Id);
+            return obj;
         }
 
-        public void AddNews(News news)
+        public async Task AddNewsAsync(News news)
         {
             //if (news != null)
             //{
             //    newsList.Add(news);
             //}
 
-            dbutility.UtilityAddNews(news);
+            await dbutility.UtilityAddNewsAsync(news);
         }
 
-        public void DeleteNews(string Id)
+        public async Task DeleteNewsAsync(string Id)
         {
             //var tempNews = GetNewsById(news.NewsId);
             //if (tempNews != null)
@@ -41,7 +43,7 @@ namespace NewApiService.Data
             //    newsList.RemoveAt(pos);
 
             //}
-                dbutility.UtilityDeleteNews(Id);
+                await dbutility.UtilityDeleteNewsAsync(Id);
         }
 
 

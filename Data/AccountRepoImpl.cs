@@ -3,6 +3,8 @@ using NewApiService.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace NewApiService.Data
@@ -10,6 +12,7 @@ namespace NewApiService.Data
     public class AccountRepoImpl:IAccountRepo
     {
         DBUtility dbutility = new DBUtility();
+        ASCIIEncoding ascii = new ASCIIEncoding();
 
         public IEnumerable<Account> GetAllUser()
         {
@@ -39,12 +42,21 @@ namespace NewApiService.Data
 
         public void DeleteAccount(string Id)
         {
-            
                 dbutility.UtilityDeleteAccount(Id);
             
         }
 
-        
+
+        // hashing password
+        public string HashPassword(string password)
+        {
+            var data = Encoding.ASCII.GetBytes(password);
+            var md5 = new MD5CryptoServiceProvider();
+            var md5data = md5.ComputeHash(data);
+            string hashedPassword = ascii.GetString(md5data);
+
+            return hashedPassword;
+        }
 
         //List<Role> roleList = new List<Role>()
         //{

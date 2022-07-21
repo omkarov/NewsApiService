@@ -21,7 +21,7 @@ namespace NewApiService.Controllers
             _repo = repo;
         }
 
-        [HttpGet("All")]
+        [HttpGet("GetAllAccount")]
         public IEnumerable<Account> GetAllUsers()
         {
             return _repo.GetAllUser();

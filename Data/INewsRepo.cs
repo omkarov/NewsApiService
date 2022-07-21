@@ -8,12 +8,12 @@ namespace NewApiService.Data
 {
     public interface INewsRepo
     {
-        public IEnumerable<News> GetAllNews();
+        public  Task<IEnumerable<News>> GetAllNewsAsync();
 
-        public News GetNewsById(string Id);
+        public  Task<News> GetNewsByIdAsync(string Id);
 
-        public void AddNews(News news);
-        public void DeleteNews(string Id);
+        public  Task AddNewsAsync(News news);
+        public  Task DeleteNewsAsync(string Id);
 
 
 

@@ -72,6 +72,8 @@ namespace NewApiService
             services.AddSingleton<IAccountRepo, AccountRepoImpl>();
 
             services.AddScoped<IJwtProvider, JwtProvider>();
+            services.AddCors();
+
 
         }
 
