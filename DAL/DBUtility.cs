@@ -151,18 +151,21 @@ namespace NewApiService.DAL
         //deletenews
         public void UtilityDeleteNews(string newsId)
         {
-            string getAllQuery = $" delete from news where newsId=@Id";
-            GetConnection();
-            command = new SqlCommand(getAllQuery, con);
-            SqlParameter idParam = new SqlParameter("@Id", newsId);
-            command.Parameters.Add(idParam);
             try
             {
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
+            bool isDeleted  =   false;
+            string delQuery = $" delete from news where newsId=@Id";
+            GetConnection();
+            command = new SqlCommand(delQuery, con);
+            SqlParameter idParam = new SqlParameter("@Id", newsId);
+            command.Parameters.Add(idParam);
+            int res  =  command.ExecuteNonQuery();
+                if (res>0)
                 {
-                    Console.WriteLine(reader);
+                    Console.WriteLine("RowDeleted");
+                    isDeleted   =   true;
                 }
+                //return isDeleted;
 
             }
             catch (Exception se)
@@ -264,6 +267,47 @@ namespace NewApiService.DAL
                 return acc;
         }
 
+        //UtilityGetUserByEmail
+        public Account UtilityGetUserByEmail(string email)
+        {
+            string getAllQuery = $"select * from account where Email = '{email}' ";
+            GetConnection();
+            command = new SqlCommand(getAllQuery, con);
+            //SqlParameter idParam = new SqlParameter("@Id", email);
+            //command.Parameters.Add(idParam);
+            Account acc = new Account();
+            try
+            {
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        acc.EmpId = reader[0].ToString();
+                        acc.Name = reader[1].ToString();
+                        acc.Email = reader[2].ToString();
+                        acc.Password = reader[3].ToString();
+                        acc.RoleId = (int)reader[4];
+                        acc.DateOfBirth = Convert.ToDateTime(reader[5]);
+                        acc.Nationality = reader[6].ToString();
+                        acc.NewsCount = (int)reader[7];
+                        acc.UserIsApprovedByAdmin = Convert.ToBoolean(reader[8]);
+                    };
+                }
+            }
+            catch (Exception se)
+            {
+                Console.WriteLine(se.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+            return acc;
+        }
+
+
+
         //add user
         public void UtilityAddAccount(Account acc)
         {
@@ -273,11 +317,13 @@ namespace NewApiService.DAL
 
             try
             {
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
+                int res = command.ExecuteNonQuery();
+                if (res  >  0)
                 {
-                    Console.WriteLine(reader);
+                    Console.WriteLine("Row Inserted");
                 }
+                else
+                    Console.WriteLine("Insertion Failed.");
 
             }
             catch (Exception se)
@@ -294,18 +340,22 @@ namespace NewApiService.DAL
         //delete user
         public void UtilityDeleteAccount(string empId)
         {
-            string getAllQuery = $" delete from account where EmpId=@Id";
-            GetConnection();
-            command = new SqlCommand(getAllQuery, con);
-            SqlParameter idParam = new SqlParameter("@Id", empId);
-            command.Parameters.Add(idParam);
             try
             {
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
+                bool isDeleted   =   false;
+            string delQuery = $" delete from account where EmpId=@Id";
+            GetConnection();
+            command = new SqlCommand(delQuery, con);
+            SqlParameter idParam = new SqlParameter("@Id", empId);
+            command.Parameters.Add(idParam);
+            int res  =  command.ExecuteNonQuery();
+
+                if (res>0)
                 {
-                    Console.WriteLine(reader);
+                    Console.WriteLine("Row Deleted");
+                    isDeleted  =  true;
                 }
+                //return isDeleted;
 
             }
             catch (Exception se)

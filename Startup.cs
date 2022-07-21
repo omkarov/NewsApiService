@@ -34,31 +34,32 @@ namespace NewApiService
 
             //adding dbcontext configs
             services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 
 
             var jwtOptions = new JwtOptions();
+            Configuration.GetSection("jwt").Bind(jwtOptions);
+            services.AddSingleton(jwtOptions);
 
+            ////Add Authenication with JWT Options
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "Bearer";
+                options.DefaultScheme = "Bearer";
+                options.DefaultChallengeScheme = "Bearer";
 
-            //Add Authenication with JWT Options
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = "Bearer";
-            //    options.DefaultScheme = "Bearer";
-            //    options.DefaultChallengeScheme = "Bearer";
+            }).AddJwtBearer(Cfg =>
+            {
+                Cfg.RequireHttpsMetadata = false;
+                Cfg.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = jwtOptions.JwtIssuer,
+                    ValidAudience = jwtOptions.JwtIssuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.JwtKey))
 
-            //}).AddJwtBearer(Cfg =>
-            //{
-            //    Cfg.RequireHttpsMetadata = false;
-            //    Cfg.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidIssuer = jwtOptions.JwtIssuer,
-            //        ValidAudience = jwtOptions.JwtIssuer,
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.JwtKey))
-
-            //    };
-            //});
+                };
+            });
 
 
             services.AddControllers();
@@ -70,14 +71,7 @@ namespace NewApiService
             services.AddSingleton<INewsRepo, NewsRepoImpl>();
             services.AddSingleton<IAccountRepo, AccountRepoImpl>();
 
-
-
-
-
-
-
-
-
+            services.AddScoped<IJwtProvider, JwtProvider>();
 
         }
 

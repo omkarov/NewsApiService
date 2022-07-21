@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NewApiService.Data;
 using NewApiService.Model;
@@ -20,20 +21,26 @@ namespace NewApiService.Controllers
             _repo = repo;
         }
 
-
-
         [HttpGet("All")]
         public IEnumerable<Account> GetAllUsers()
         {
             return _repo.GetAllUser();
         }
 
-        [HttpGet("{id}", Name = "GetUserById")]
+        [HttpGet("{id}", Name = "GetUserById")]  
         public Account GetUserById(string id)
         {
             return _repo.GetUserById(id);
         }
 
+
+        // get user by email for checking login
+
+        [HttpGet("GetUserByEmail/{email}", Name = "GetUserByEmail")]
+        public Account GetUserByEmail(string email)
+        {
+            return _repo.GetUserByEmail(email);
+        }
 
         [HttpPost]
         public ActionResult AddUser([FromBody] Account user)

@@ -23,6 +23,11 @@ namespace NewApiService.Data
             return dbutility.UtilityGetUserById(Id);
         }
 
+        public Account GetUserByEmail(string email)
+        {
+            return dbutility.UtilityGetUserByEmail(email);
+        }
+
         public void AddUser(Account user)
         {
             if (user != null)
@@ -39,6 +44,7 @@ namespace NewApiService.Data
             
         }
 
+        
 
         //List<Role> roleList = new List<Role>()
         //{

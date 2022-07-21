@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NewApiService.Data;
 using NewApiService.Model;
@@ -19,8 +20,9 @@ namespace NewApiService.Controllers
             repo = repository;
         }
 
+        [Authorize]
         [HttpGet]
-        public IEnumerable<News> GetAllNews()
+        public IEnumerable<News> GetAllNews()   
         {
 
             return repo.GetAllNews();

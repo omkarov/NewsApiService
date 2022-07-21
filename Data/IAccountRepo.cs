@@ -10,6 +10,7 @@ namespace NewApiService.Data
     {
         IEnumerable<Account> GetAllUser();
         Account GetUserById(string Id);
+        Account GetUserByEmail(string email);
         void AddUser(Account user);
         void DeleteAccount(string Id);
     }
