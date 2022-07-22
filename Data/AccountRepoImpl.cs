@@ -14,35 +14,38 @@ namespace NewApiService.Data
         DBUtility dbutility = new DBUtility();
         ASCIIEncoding ascii = new ASCIIEncoding();
 
-        public IEnumerable<Account> GetAllUser()
+        public async Task<IEnumerable<Account>> GetAllUserAsync()
         {
             //return userList;
-            return dbutility.UtilitygetAllUsers();
+            var obj = await dbutility.UtilitygetAllUsersAsync();
+            return obj;
         }
 
-        public Account GetUserById(string Id)
+        public async Task<Account> GetUserByIdAsync(string Id)
         {
             //return userList.FirstOrDefault(x => x.EmpId.Equals(Id));
-            return dbutility.UtilityGetUserById(Id);
+            var obj = await dbutility.UtilityGetUserByIdAsync(Id);
+            return obj;
         }
 
-        public Account GetUserByEmail(string email)
+        public async Task<Account> GetUserByEmailAsync(string email)
         {
-            return dbutility.UtilityGetUserByEmail(email);
+            var obj = await dbutility.UtilityGetUserByEmailAsync(email);
+            return obj ;
         }
 
-        public void AddUser(Account user)
+        public async Task AddUserAsync(Account user)
         {
             if (user != null)
             {
                 //userList.Add(user);
-                dbutility.UtilityAddAccount(user);
+                await dbutility.UtilityAddAccountAsync(user);
             }
         }
 
-        public void DeleteAccount(string Id)
+        public async Task DeleteAccountAsync(string Id)
         {
-                dbutility.UtilityDeleteAccount(Id);
+                await dbutility.UtilityDeleteAccountAsync(Id);
             
         }
 

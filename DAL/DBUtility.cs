@@ -28,7 +28,7 @@ namespace NewApiService.DAL
             }
         }
 
-        public async Task CloseConnection()
+        public async Task CloseConnectionAsync()
         {
             try
             {
@@ -117,7 +117,7 @@ namespace NewApiService.DAL
             }
             finally
             {
-                await con.CloseAsync();
+                await CloseConnectionAsync();
             }
             return news;
 
@@ -145,7 +145,7 @@ namespace NewApiService.DAL
             }
             finally
             {
-                await con.CloseAsync();
+                await CloseConnectionAsync();
             }
 
         }
@@ -175,7 +175,7 @@ namespace NewApiService.DAL
             }
             finally
             {
-                await con.CloseAsync();
+                await CloseConnectionAsync();
             }
 
         }
@@ -186,7 +186,7 @@ namespace NewApiService.DAL
         //---------------------------------------------------
         
         //get all users
-        public List<Account> UtilitygetAllUsers()
+        public async Task<List<Account>> UtilitygetAllUsersAsync()
         {
                 List<Account> userList = new List<Account>();
             try
@@ -194,7 +194,7 @@ namespace NewApiService.DAL
                 Qry = $"select * from account";
                 GetConnection();
                 command = new SqlCommand(Qry, con);
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -221,13 +221,13 @@ namespace NewApiService.DAL
             }
             finally
             {
-                con.Close();
+                await CloseConnectionAsync();
             }
             return userList;
         }
 
         //getUserbyid
-        public Account UtilityGetUserById(string empId)
+        public async Task<Account> UtilityGetUserByIdAsync(string empId)
         {
             string getAllQuery = $"select * from account where EmpId= @Id ";
             GetConnection();
@@ -237,7 +237,7 @@ namespace NewApiService.DAL
             Account acc = new Account();
             try
             {
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -260,13 +260,13 @@ namespace NewApiService.DAL
             }
             finally
             {
-                con.Close();
+                await CloseConnectionAsync();
             }
                 return acc;
         }
 
         //UtilityGetUserByEmail
-        public Account UtilityGetUserByEmail(string email)
+        public async Task<Account> UtilityGetUserByEmailAsync(string email)
         {
             string getAllQuery = $"select * from account where Email = '{email}' ";
             GetConnection();
@@ -276,7 +276,7 @@ namespace NewApiService.DAL
             Account acc = new Account();
             try
             {
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
                     while (reader.Read())
@@ -299,14 +299,14 @@ namespace NewApiService.DAL
             }
             finally
             {
-                con.Close();
+                await CloseConnectionAsync();
             }
             return acc;
         }
 
         PasswordManager passwordm = new PasswordManager();
         //add user
-        public void UtilityAddAccount(Account acc)
+        public async Task UtilityAddAccountAsync(Account acc)
         {
             string hpwd = passwordm.HashPasswordEncoder(acc.Password);
 
@@ -316,7 +316,7 @@ namespace NewApiService.DAL
 
             try
             {
-                int res = command.ExecuteNonQuery();
+                int res = await command.ExecuteNonQueryAsync();
                 if (res  >  0)
                 {
                     Console.WriteLine("Row Inserted");
@@ -331,7 +331,7 @@ namespace NewApiService.DAL
             }
             finally
             {
-                con.Close();
+                await CloseConnectionAsync();
             }
 
         }
@@ -339,7 +339,7 @@ namespace NewApiService.DAL
         
 
         //delete user
-        public void UtilityDeleteAccount(string empId)
+        public async Task UtilityDeleteAccountAsync(string empId)
         {
             try
             {
@@ -349,7 +349,7 @@ namespace NewApiService.DAL
             command = new SqlCommand(delQuery, con);
             SqlParameter idParam = new SqlParameter("@Id", empId);
             command.Parameters.Add(idParam);
-            int res  =  command.ExecuteNonQuery();
+            int res  = await command.ExecuteNonQueryAsync();
 
                 if (res>0)
                 {
@@ -365,7 +365,7 @@ namespace NewApiService.DAL
             }
             finally
             {
-                con.Close();
+                await CloseConnectionAsync();
             }
 
         }

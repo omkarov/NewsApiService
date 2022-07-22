@@ -22,44 +22,46 @@ namespace NewApiService.Controllers
         }
 
         [HttpGet("GetAllAccount")]
-        public IEnumerable<Account> GetAllUsers()
-        {
-            return _repo.GetAllUser();
+        public async Task<IEnumerable<Account>> GetAllUsersAsync()
+        {var obj = await _repo.GetAllUserAsync();
+            return obj;
         }
 
-        [HttpGet("{id}", Name = "GetUserById")]  
-        public Account GetUserById(string id)
+        [HttpGet("{id}", Name = "GetUserByIdAsync")]  
+        public async Task<Account> GetUserByIdAsync(string id)
         {
-            return _repo.GetUserById(id);
+            var obj = await _repo.GetUserByIdAsync(id);
+            return obj;
         }
 
 
         // get user by email for checking login
 
         [HttpGet("GetUserByEmail/{email}", Name = "GetUserByEmail")]
-        public Account GetUserByEmail(string email)
+        public async Task<Account> GetUserByEmailAsync(string email)
         {
-            return _repo.GetUserByEmail(email);
+            var obj= await _repo.GetUserByEmailAsync(email);
+            return obj; 
         }
 
         [HttpPost]
-        public ActionResult AddUser([FromBody] Account user)
+        public async Task<ActionResult> AddUserAsync([FromBody] Account user)
         {
-            _repo.AddUser(user);
+           await _repo.AddUserAsync(user);
 
-            return CreatedAtRoute(nameof(GetUserById), new { id = user.EmpId }, user);
+            return CreatedAtRoute(nameof(GetUserByIdAsync), new { id = user.EmpId }, user);
         }
 
         [HttpDelete("{id}")]
 
-        public ActionResult deleteUser(string id)
+        public async Task<ActionResult> deleteUserAsync(string id)
         {
-            var objId = _repo.GetUserById(id);
+            var objId =await  _repo.GetUserByIdAsync(id);
             if (objId.EmpId == null)
                 return NotFound();
             else
             {
-                _repo.DeleteAccount(id);
+                await _repo.DeleteAccountAsync(id);
                 return NoContent();   // 204 status code
             }
         }

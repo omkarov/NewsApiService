@@ -8,10 +8,10 @@ namespace NewApiService.Data
 {
     public interface IAccountRepo
     {
-        IEnumerable<Account> GetAllUser();
-        Account GetUserById(string Id);
-        Account GetUserByEmail(string email);
-        void AddUser(Account user);
-        void DeleteAccount(string Id);
+        Task<IEnumerable<Account>> GetAllUserAsync();
+        Task<Account> GetUserByIdAsync(string Id);
+        Task<Account> GetUserByEmailAsync(string email);
+        Task AddUserAsync(Account user);
+        Task DeleteAccountAsync(string Id);
     }
 }

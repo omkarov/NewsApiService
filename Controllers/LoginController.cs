@@ -29,12 +29,12 @@ namespace NewApiService.Controllers
 
         [HttpPost("login")]
 
-        public ActionResult AttemptLogin([FromBody] Account acc)
+        public async Task<ActionResult> AttemptLogin([FromBody] Account acc)
         {
             string pwd = acc.Password;
             string email = acc.Email;
             string hpwd = passwordm.HashPasswordEncoder(acc.Password);
-            Account account = accountRepo.GetUserByEmail(email);
+            Account account = await accountRepo.GetUserByEmailAsync(email);
 
             if (acc == null)
             {
