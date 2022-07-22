@@ -83,6 +83,8 @@ namespace NewApiService.DAL
             return newslist;
         }
 
+        
+
         //getnewsbyid
         public async Task<News> UtilityGetNewsByIdAsync(string newsId)
         {
@@ -135,7 +137,18 @@ namespace NewApiService.DAL
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.HasRows)
                 {
+
+                    //SqlRowUpdatedEventArgs newscount
+                    //string updateQuery = $"update account set NewsCount=@param where id=@Id";
+                    //command = new SqlCommand(updateQuery, con);
+                    //SqlParameter boolParam = new SqlParameter("@param", reader. .NewsCount);
+                    //SqlParameter idParam = new SqlParameter("@Id", news.NewsAuthor);
+
+                    //command.Parameters.Add(boolParam);
+                    //command.Parameters.Add(idParam);
+                    //int res = await command.ExecuteNonQueryAsync();
                     Console.WriteLine(reader);
+
                 }
 
             }
@@ -371,9 +384,42 @@ namespace NewApiService.DAL
         }
 
         //approve user
+        
 
+        public async Task<bool> UtilityApproveUserAsync(string bkId, bool value)
+        {
+            bool isUpdated = false;
+            string updateQuery = $"update account set UserIsApprovedByAdmin=@param where id=@Id";
+            command = new SqlCommand(updateQuery, con);
+            SqlParameter boolParam = new SqlParameter("@param", value);
+            SqlParameter idParam = new SqlParameter("@Id", bkId);
 
+            command.Parameters.Add(boolParam);
+            command.Parameters.Add(idParam);
 
+            try
+            {
+                int res = await command.ExecuteNonQueryAsync();
+                if (res > 0)
+                {
+                    Console.WriteLine("Row Updated..");
+                    isUpdated = true;
+                }
+                else
+                    Console.WriteLine("Not Updated..");
+            }
+            catch (SqlException se)
+            {
+
+                Console.WriteLine("Error while updating." + se.Message);
+            }
+            finally
+            {
+                await CloseConnectionAsync();
+            }
+
+            return isUpdated;
+        }
 
 
 

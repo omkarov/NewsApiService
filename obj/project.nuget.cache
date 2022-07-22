@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QvM+PSLwRhwtGKmhFtGhFmk4bKVdzgcC3mkB/snCCumf/093KP0pF/LVwkXmnV1yPkN2G+f51PYt5ZjOgA/v9A==",
+  "dgSpecHash": "nluag+VAKLuqpwontujl+kHc9eNZwrC5/pr/LcF2dOg4lIt4H+9Sru9EEhSw41Nj51jHBp3QQktvPGu61/Ne/w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Tejas.Mandhare\\Source\\Repos\\NewsApiService\\NewApiService.csproj",
+  "projectFilePath": "C:\\Users\\Tejas.Mandhare\\source\\repos\\NewsApiService\\NewApiService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tejas.Mandhare\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Tejas.Mandhare\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.10\\microsoft.aspnetcore.authentication.jwtbearer.5.0.10.nupkg.sha512",

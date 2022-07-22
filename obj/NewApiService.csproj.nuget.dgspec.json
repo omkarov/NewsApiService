@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Tejas.Mandhare\\Source\\Repos\\NewsApiService\\NewApiService.csproj": {}
+    "C:\\Users\\Tejas.Mandhare\\source\\repos\\NewsApiService\\NewApiService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Tejas.Mandhare\\Source\\Repos\\NewsApiService\\NewApiService.csproj": {
+    "C:\\Users\\Tejas.Mandhare\\source\\repos\\NewsApiService\\NewApiService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tejas.Mandhare\\Source\\Repos\\NewsApiService\\NewApiService.csproj",
+        "projectUniqueName": "C:\\Users\\Tejas.Mandhare\\source\\repos\\NewsApiService\\NewApiService.csproj",
         "projectName": "NewApiService",
-        "projectPath": "C:\\Users\\Tejas.Mandhare\\Source\\Repos\\NewsApiService\\NewApiService.csproj",
+        "projectPath": "C:\\Users\\Tejas.Mandhare\\source\\repos\\NewsApiService\\NewApiService.csproj",
         "packagesPath": "C:\\Users\\Tejas.Mandhare\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tejas.Mandhare\\Source\\Repos\\NewsApiService\\obj\\",
+        "outputPath": "C:\\Users\\Tejas.Mandhare\\source\\repos\\NewsApiService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Tejas.Mandhare\\AppData\\Roaming\\NuGet\\NuGet.Config",

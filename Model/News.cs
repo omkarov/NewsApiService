@@ -20,7 +20,7 @@ namespace NewApiService.Model
         public string NewsCategory { get; set; }
 
         //[ForeignKey("User")]
-        public string ApprovedBy { get; set; }
+        public string ApprovedBy { get; set; };
         [ForeignKey("ApprovedBy")]
         public Account acc1 { get; set; }
 
