@@ -5709,19 +5709,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Tejas.Mandhare\\.nuget\\packages\\": {}
+    "C:\\Users\\Omkar.Vishwakarma\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tejas.Mandhare\\Source\\Repos\\NewsApiService\\NewApiService.csproj",
+      "projectUniqueName": "C:\\Users\\Omkar.Vishwakarma\\source\\repos\\NewApiService\\NewApiService.csproj",
       "projectName": "NewApiService",
-      "projectPath": "C:\\Users\\Tejas.Mandhare\\Source\\Repos\\NewsApiService\\NewApiService.csproj",
-      "packagesPath": "C:\\Users\\Tejas.Mandhare\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tejas.Mandhare\\Source\\Repos\\NewsApiService\\obj\\",
+      "projectPath": "C:\\Users\\Omkar.Vishwakarma\\source\\repos\\NewApiService\\NewApiService.csproj",
+      "packagesPath": "C:\\Users\\Omkar.Vishwakarma\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Omkar.Vishwakarma\\source\\repos\\NewApiService\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Tejas.Mandhare\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Omkar.Vishwakarma\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
