@@ -26,12 +26,11 @@ namespace NewApiService.Data
 
         public async Task AddNewsAsync(News news)
         {
-            //if (news != null)
-            //{
-            //    newsList.Add(news);
-            //}
-
-            await dbutility.UtilityAddNewsAsync(news);
+            if (news != null)
+            {
+                await dbutility.UtilityAddNewsAsync(news);
+                await dbutility.UtilityUpdateNewscountAsync( news.NewsAuthor);
+            }
         }
 
         public async Task DeleteNewsAsync(string Id)

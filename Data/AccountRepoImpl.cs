@@ -61,6 +61,13 @@ namespace NewApiService.Data
             return hashedPassword;
         }
 
+        public async Task<bool> ApproveUserAsync(string Id, bool value)
+        {
+            var obj = await dbutility.UtilityApproveUserAsync(Id, value);
+            return obj;
+        }
+
+
         //List<Role> roleList = new List<Role>()
         //{
         //    new Role { RoleId =1 ,RoleName="Admin"},

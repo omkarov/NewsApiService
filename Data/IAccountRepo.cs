@@ -13,5 +13,6 @@ namespace NewApiService.Data
         Task<Account> GetUserByEmailAsync(string email);
         Task AddUserAsync(Account user);
         Task DeleteAccountAsync(string Id);
+        Task<bool> ApproveUserAsync(string Id, bool value);
     }
 }

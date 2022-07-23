@@ -15,12 +15,12 @@ namespace NewApiService.DAL
         string Qry = string.Empty;
 
         
-        public  void  GetConnection()
+        public  async Task  GetConnection()
         {
             try
             {
-                con = new SqlConnection(conStr);
-                 con.OpenAsync();
+                 con = new SqlConnection(conStr);
+                 await con.OpenAsync();
             }
             catch (SqlException se)
             {
@@ -83,11 +83,13 @@ namespace NewApiService.DAL
             return newslist;
         }
 
+        
+
         //getnewsbyid
         public async Task<News> UtilityGetNewsByIdAsync(string newsId)
         {
             string getAllQuery = $"select * from news where NewsId= @Id ";
-           GetConnection();
+            GetConnection();
             command = new SqlCommand(getAllQuery, con);
 
             SqlParameter idParam = new SqlParameter("@Id", newsId);
@@ -129,7 +131,6 @@ namespace NewApiService.DAL
             string getAllQuery = $"Insert into news VALUES('{news.NewsId}','{news.NewsAuthor}' ,'{news.NewsCategory}' , '{news.ApprovedBy}','{news.NewsLocation}','{news.NewsTitle}','{news.NewsMatter}','{news.NewsTime}' ) ";
             GetConnection();
             command = new SqlCommand(getAllQuery, con);
-            
             try
             {
                 SqlDataReader reader = await command.ExecuteReaderAsync();
@@ -137,7 +138,6 @@ namespace NewApiService.DAL
                 {
                     Console.WriteLine(reader);
                 }
-
             }
             catch (Exception se)
             {
@@ -149,6 +149,32 @@ namespace NewApiService.DAL
             }
 
         }
+
+        public async Task UtilityUpdateNewscountAsync(string newsAuthor)
+        {
+            string updateNewscountquery = $"update account set NewsCount=NewsCount+1 where EmpId='{newsAuthor}'";
+            GetConnection();
+            command = new SqlCommand(updateNewscountquery, con);
+            try
+            {
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                
+                if (reader.HasRows)
+                {
+                    Console.WriteLine(reader);
+                }
+            }
+            catch (Exception se)
+            {
+                Console.WriteLine(se.Message);
+            }
+            finally
+            {
+                await CloseConnectionAsync();
+            }
+        }
+
+
         //deletenews
         public async Task UtilityDeleteNewsAsync(string newsId)
         {
@@ -323,7 +349,6 @@ namespace NewApiService.DAL
                 }
                 else
                     Console.WriteLine("Insertion Failed.");
-
             }
             catch (Exception se)
             {
@@ -344,12 +369,12 @@ namespace NewApiService.DAL
             try
             {
                 bool isDeleted   =   false;
-            string delQuery = $" delete from account where EmpId=@Id";
-            GetConnection();
-            command = new SqlCommand(delQuery, con);
-            SqlParameter idParam = new SqlParameter("@Id", empId);
-            command.Parameters.Add(idParam);
-            int res  = await command.ExecuteNonQueryAsync();
+                string delQuery = $" delete from account where EmpId=@Id";
+                GetConnection();
+                command = new SqlCommand(delQuery, con);
+                SqlParameter idParam = new SqlParameter("@Id", empId);
+                command.Parameters.Add(idParam);
+                int res  = await command.ExecuteNonQueryAsync();
 
                 if (res>0)
                 {
@@ -370,12 +395,37 @@ namespace NewApiService.DAL
 
         }
 
+
         //approve user
-
-
-
-
-
-
+        public async Task<bool> UtilityApproveUserAsync(string Id, bool value)
+        {
+            bool isUpdated = false;
+            string updateQuery = $"update account set UserIsApprovedByAdmin='{value}' where EmpId='{Id}'";
+            GetConnection();
+            command = new SqlCommand(updateQuery, con);
+            try
+            {
+                int res = await command.ExecuteNonQueryAsync();
+                if (res > 0)
+                {
+                    Console.WriteLine("Row Updated..");
+                    isUpdated = true;
+                }
+                else
+                    Console.WriteLine("Not Updated..");
+            }
+            catch (SqlException se)
+            {
+                Console.WriteLine("Error while updating." + se.Message);
+            }
+            finally
+            {
+                await CloseConnectionAsync();
+            }
+            return isUpdated;
+        }
     }
+
+
+
 }

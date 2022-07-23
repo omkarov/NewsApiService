@@ -65,5 +65,19 @@ namespace NewApiService.Controllers
                 return NoContent();   // 204 status code
             }
         }
+
+
+        [HttpGet("appprove{id}")]        
+        public async Task<ActionResult> ApproveUserAsync(string id, bool value)
+        {
+            var obj = await _repo.GetUserByIdAsync(id);
+            if(obj.EmpId==null)
+                return NotFound("User Not Found.");
+            else
+            {
+                await _repo.ApproveUserAsync(id, value);
+            }
+            return Ok("Success");
+        }
     }
 }
